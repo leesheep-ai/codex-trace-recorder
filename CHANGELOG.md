@@ -7,6 +7,19 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+### Changed
+
+- Tighten archive directory permissions across the archive root, session, and
+  subagent hierarchy on a best-effort basis.
+- Align installation instructions with marketplace registration followed by
+  installation from the Codex desktop Plugins directory.
+- Describe checkpoints as content-addressed rather than tamper-resistant.
+
+### Tests
+
+- Add POSIX regression coverage for correcting permissive archive and session
+  directory modes to `0700`.
+
 ## [0.1.0] - 2026-08-17
 
 ### Added

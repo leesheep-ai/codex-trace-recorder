@@ -21,24 +21,26 @@ Hook 暴露的完整 transcript 文件。它不会解析 JSONL、规范化消息
 
 ## 安装
 
-从 GitHub Marketplace 仓库安装：
+从 GitHub Marketplace 仓库安装时，先注册这个插件 marketplace：
 
 ```powershell
 codex plugin marketplace add leesheep-ai/codex-trace-recorder
-codex plugin add codex-trace-recorder@codex-trace-recorder
 ```
 
-随后重启 Codex 桌面应用，启用 **Codex Trace Recorder**，执行 `/hooks`
-审核并信任插件 Hooks，然后新建任务。
+随后重启 Codex 桌面应用，在 Plugins 目录中从 `codex-trace-recorder`
+marketplace 安装并启用 **Codex Trace Recorder**，再执行 `/hooks` 审核并信任
+插件 Hooks，然后新建任务。
 
-也可以从本地克隆安装：
+也可以从本地克隆注册 marketplace：
 
 ```powershell
 git clone https://github.com/leesheep-ai/codex-trace-recorder.git
 cd codex-trace-recorder
 codex plugin marketplace add .
-codex plugin add codex-trace-recorder@codex-trace-recorder
 ```
+
+然后在 Codex 桌面应用的 Plugins 目录中从本地 marketplace 安装并启用
+**Codex Trace Recorder**，使用前同样审核 `/hooks`。
 
 ## 使用
 
@@ -90,6 +92,9 @@ python -m unittest discover -s plugins/codex-trace-recorder/tests -v
 
 原始 trace 可能包含提示词、模型响应、推理摘要、工具参数与结果、源代码片段、
 本地路径和密钥。为了保证字节级原样保存，本插件不会执行任何脱敏。
+
+记录器会尽力为归档目录和文件设置私有的 POSIX 风格权限；这些权限不能替代
+Windows ACL 或其他操作系统访问控制策略。
 
 请限制归档目录的访问权限，配置合适的保留周期，并且不要在未经检查的情况下
 公开 trace 文件。

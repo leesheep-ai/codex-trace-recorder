@@ -44,12 +44,14 @@ plugins/codex-trace-recorder/
 
 ### From this GitHub marketplace
 
+Register this repository as a Codex plugin marketplace:
+
 ```powershell
 codex plugin marketplace add leesheep-ai/codex-trace-recorder
-codex plugin add codex-trace-recorder@codex-trace-recorder
 ```
 
-Restart the Codex desktop app, enable **Codex Trace Recorder**, and open
+Restart the Codex desktop app, open the Plugins directory, install and enable
+**Codex Trace Recorder** from the `codex-trace-recorder` marketplace, then open
 `/hooks` to review and trust the plugin hooks. Start a new task after enabling
 the plugin.
 
@@ -59,8 +61,10 @@ the plugin.
 git clone https://github.com/leesheep-ai/codex-trace-recorder.git
 cd codex-trace-recorder
 codex plugin marketplace add .
-codex plugin add codex-trace-recorder@codex-trace-recorder
 ```
+
+Then install and enable **Codex Trace Recorder** from the local marketplace in
+the Codex desktop app's Plugins directory and review `/hooks` before use.
 
 Plugin command hooks are intentionally subject to Codex's hook trust review.
 Do not bypass that review for an uninspected checkout.
@@ -114,8 +118,8 @@ Run the tests:
 python -m unittest discover -s plugins/codex-trace-recorder/tests -v
 ```
 
-The tests verify byte identity, immutable checkpoints, subagent routing, and
-failure behavior.
+The tests verify byte identity, content-addressed checkpoint retention,
+subagent routing, archive directory permissions on POSIX, and failure behavior.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes. Security
 issues should follow [SECURITY.md](SECURITY.md).
@@ -125,6 +129,10 @@ issues should follow [SECURITY.md](SECURITY.md).
 Raw transcripts may contain prompts, responses, reasoning summaries, tool
 arguments and results, source excerpts, local paths, and secrets. The plugin
 does not redact anything because its purpose is exact preservation.
+
+The recorder best-effort applies private POSIX-style permissions to archive
+directories and saved files. These modes do not replace Windows ACL policy or
+other operating-system access controls.
 
 Use a private archive location, restrict filesystem access, and define an
 appropriate retention policy. Do not publish trace archives without reviewing
