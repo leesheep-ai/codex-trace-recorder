@@ -42,11 +42,25 @@ def archive_root() -> Path:
 
 
 def ensure_private_directory(path: Path) -> None:
+    root = archive_root()
     path.mkdir(parents=True, exist_ok=True)
+
     try:
-        path.chmod(0o700)
-    except OSError:
-        pass
+        relative = path.relative_to(root)
+    except ValueError:
+        directories = [path]
+    else:
+        directories = [root]
+        current = root
+        for part in relative.parts:
+            current = current / part
+            directories.append(current)
+
+    for directory in directories:
+        try:
+            directory.chmod(0o700)
+        except OSError:
+            pass
 
 
 def copy_and_hash(source: BinaryIO, destination: BinaryIO) -> str:

@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import stat
 import subprocess
 import sys
 import tempfile
@@ -104,6 +105,35 @@ class TraceRecorderTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
             saved = temporary / "archive" / "thr_agents" / "subagents" / "agent_one" / "transcript.jsonl"
             self.assertEqual(saved.read_bytes(), b"agent-raw")
+
+    @unittest.skipUnless(os.name == "posix", "POSIX directory permissions only")
+    def test_archive_directory_tree_is_private(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_name:
+            temporary = Path(temporary_name)
+            source = temporary / "agent.jsonl"
+            source.write_bytes(b"agent-raw")
+            trace_root = temporary / "archive"
+            session = trace_root / "thr_permissions"
+            session.mkdir(parents=True)
+            trace_root.chmod(0o755)
+            session.chmod(0o755)
+
+            result = self.invoke(
+                {
+                    "session_id": "thr_permissions",
+                    "agent_transcript_path": str(source),
+                    "agent_id": "agent-one",
+                    "hook_event_name": "SubagentStop",
+                },
+                trace_root,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
+            agent = session / "subagents" / "agent-one"
+            directories = [trace_root, session, session / "subagents", agent, agent / "checkpoints"]
+            for directory in directories:
+                with self.subTest(directory=directory):
+                    self.assertEqual(stat.S_IMODE(directory.stat().st_mode), 0o700)
 
     def test_missing_transcript_warns_but_does_not_block_stop(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_name:
