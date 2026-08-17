@@ -1,0 +1,57 @@
+{
+  "description": "Archive complete Codex transcript files without format conversion.",
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/trace_recorder.py\"",
+            "commandWindows": "python \"${PLUGIN_ROOT}\\scripts\\trace_recorder.py\"",
+            "timeout": 30,
+            "statusMessage": "Saving raw trace before compaction"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/trace_recorder.py\"",
+            "commandWindows": "python \"${PLUGIN_ROOT}\\scripts\\trace_recorder.py\"",
+            "timeout": 30,
+            "statusMessage": "Saving raw subagent trace"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/trace_recorder.py\"",
+            "commandWindows": "python \"${PLUGIN_ROOT}\\scripts\\trace_recorder.py\"",
+            "timeout": 30,
+            "statusMessage": "Saving raw Codex trace"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/trace_recorder.py\"",
+            "commandWindows": "python \"${PLUGIN_ROOT}\\scripts\\trace_recorder.py\"",
+            "timeout": 3,
+            "statusMessage": "Finalizing raw Codex trace"
+          }
+        ]
+      }
+    ]
+  }
+}

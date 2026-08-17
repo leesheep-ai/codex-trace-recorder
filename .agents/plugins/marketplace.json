@@ -1,0 +1,20 @@
+{
+  "name": "codex-trace-recorder",
+  "interface": {
+    "displayName": "Codex Trace Recorder"
+  },
+  "plugins": [
+    {
+      "name": "codex-trace-recorder",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex-trace-recorder"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

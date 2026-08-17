@@ -1,0 +1,32 @@
+{
+  "name": "codex-trace-recorder",
+  "version": "0.1.0",
+  "description": "Archive complete Codex transcripts byte-for-byte without format conversion.",
+  "author": {
+    "name": "leesheep-ai",
+    "url": "https://github.com/leesheep-ai"
+  },
+  "homepage": "https://github.com/leesheep-ai/codex-trace-recorder#readme",
+  "repository": "https://github.com/leesheep-ai/codex-trace-recorder",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "trace",
+    "transcript",
+    "jsonl",
+    "observability"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Trace Recorder",
+    "shortDescription": "Save complete raw Codex traces locally",
+    "longDescription": "Copies main-thread and subagent transcript files byte-for-byte at lifecycle checkpoints without parsing, normalizing, redacting, reshaping, or converting the source format.",
+    "developerName": "leesheep-ai",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": "Show me where Codex Trace Recorder saves raw traces."
+  }
+}
